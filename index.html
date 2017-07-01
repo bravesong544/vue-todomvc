@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Template • TodoMVC</title>
+	<link rel="stylesheet" href="node_modules/todomvc-common/base.css">
+	<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
+	<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<section id="app" class="todoapp">
+	<header class="header">
+		<h1>todos</h1>
+		<input v-model="newVal" @keydown.enter="addTodo" class="new-todo" placeholder="What needs to be done?" autofocus>
+	</header>
+	<section class="main">
+		<input v-model="selectAll" @click="allCompleted" class="toggle-all" id="toggle-all" type="checkbox">
+		<label for="toggle-all">Mark all as complete</label>
+		<ul class="todo-list">
+			<li v-for="(item, index) in filterList" :class="{completed: item.completed, editing: editing == index}">
+				<div class="view">
+					<input v-model="item.completed" @click="isSelectAll" class="toggle" type="checkbox" checked>
+					<label @dblclick="edit(index)">{{item.info}}</label>
+					<button @click="delItem(index)" class="destroy"></button>
+				</div>
+				<input @blur="edit(-1)" class="edit" v-model="item.info">
+			</li>
+		</ul>
+	</section>
+	<footer class="footer">
+		<span class="todo-count"><strong>{{activeLength}}</strong> item left</span>
+		<ul class="filters">
+			<li>
+				<a :class="{selected: nowActive == 'all'}" @click="changeActive('all')" href="#">All</a>
+			</li>
+			<li>
+				<a :class="{selected: nowActive == 'active'}" @click="changeActive('active')" href="#">Active</a>
+			</li>
+			<li>
+				<a :class="{selected: nowActive == 'completed'}" @click="changeActive('completed')" href="#">Completed</a>
+			</li>
+		</ul>
+		<button @click="clearCompleted" class="clear-completed">Clear completed</button>
+	</footer>
+</section>
+<footer class="info">
+	<p>Double-click to edit a todo</p>
+	<p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
+	<p>Created by <a href="http://todomvc.com">you</a></p>
+	<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+</footer>
+
+<script src="./node_modules/vue/dist/vue.js"></script>
+<script src="./node_modules/vue-router/dist/vue-router.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
